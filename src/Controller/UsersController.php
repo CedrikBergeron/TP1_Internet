@@ -123,4 +123,24 @@ class UsersController extends AppController {
         }
     }
 
+    public function isAuthorized($user) {
+        $action = $this->request->getParam('action');
+        // Les actions 'add' et 'tags' sont toujours autorisés pour les utilisateur
+        // authentifiés sur l'application
+        if (in_array($action, ['add', 'tags', 'edit', 'delete'])) {
+            return true;
+        }
+
+        // Toutes les autres actions nécessitent un slug
+        $slug = $this->request->getParam('pass.0');
+        if (!$slug) {
+            return false;
+        }
+
+        // On vérifie que l'article appartient à l'utilisateur connecté
+        $user = $this->Users->findBySlug($slug)->first();
+
+        return $user->user_id === $user['id'];
+    }
+
 }
