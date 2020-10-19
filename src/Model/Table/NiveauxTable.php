@@ -33,18 +33,6 @@ class NiveauxTable extends Table {
         $this->setTable('niveaux');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
-
-        I18n::setLocale('es');
-        $this->loadModel('Articles');
-
-        $article = $this->Articles->get(12);
-        echo $article->title; // Affiche 'A title', pas encore traduit
-        
-        $article->title = 'Un Artículo';
-$this->Articles->save($article);
-
-$article = $this->Articles->get(12);
-echo $article->title; // Affiche 'Un Artículo', ouah facile!
     }
 
     /**
